@@ -3,9 +3,9 @@ Bootstrap-Airview (Airview Images just like a tooltip)
 Bootstrap-Airview is a Javascript plugin which displays single image as Bootstrap Tooltip. It requires Bootstraps Tooltip.js and JQuery.js to work, both of these plugins are provided. 
 
 # Beautifully Sleek
-![Bootstrap-Airview](http://ispark.byethost17.com/airview/img/screenshots/01.jpg)
-![Bootstrap-Airview-Amazingly-Responsive](http://ispark.byethost17.com/airview/img/screenshots/03.jpg)
-![Bootstrap-Airview-Zoomed](http://ispark.byethost17.com/airview/img/screenshots/02.jpg)
+<img src="https://raw.githubusercontent.com/deviprsd21/Bootstrap-Airview/master/img/screenshots/1.jpg" alt="Bootstrap-Airview" style="width: 50%" />
+<img src="https://raw.githubusercontent.com/deviprsd21/Bootstrap-Airview/master/img/screenshots/3.jpg" alt="Bootstrap-Airview-Amazingly-Responsive" style="width: 50%" />
+<img src="https://raw.githubusercontent.com/deviprsd21/Bootstrap-Airview/master/img/screenshots/2.jpg" alt="Bootstrap-Airview-Zoomed" />
 
 # How to Use
 Lightweight as < 3.05kb. And really simple to use. **It is mandatory to include Bootstrap tooltip.js.

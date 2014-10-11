@@ -1,11 +1,5 @@
-/* Normalize img tag */
-img {
-  border: 0;
-  page-break-inside: avoid;
-  max-width: 100% !important;
-  vertical-align: middle;
-}
-/* Remove or comment .fade and .fade.in if you are using bootstrap.in */
+@import url("/vendor/normalize.css");
+@import url("/vendor/animation.css");
 .fade {
   opacity: 0;
   -webkit-transition: opacity .15s linear;
@@ -52,6 +46,11 @@ img {
   text-decoration: none;
   background-color: #000;
   border-radius: 4px;
+}
+.airview-inner.error {
+  padding: 8px;
+  min-width: 0px;
+  min-height: 0px;
 }
 .airview-inner > .airview-loader {
   background: url("../img/loader.gif");

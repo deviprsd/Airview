@@ -5,16 +5,16 @@ img {
   max-width: 100% !important;
   vertical-align: middle;
 }
-/** Unccoment if you are not using bootstrap.css or bootstrap.min.css and want to use animation
-* .fade {
-*  opacity: 0;
-*  -webkit-transition: opacity .15s linear;
-*       -o-transition: opacity .15s linear;
-*          transition: opacity .15s linear;
-* }
-* .fade.in {
-*  opacity: 1;
-* } */
+/* Remove or comment .fade and .fade.in if you are using bootstrap.in */
+.fade {
+  opacity: 0;
+  -webkit-transition: opacity .15s linear;
+       -o-transition: opacity .15s linear;
+          transition: opacity .15s linear;
+}
+.fade.in {
+  opacity: 1;
+}
 .airview {
   position: absolute;
   z-index: 1070;
@@ -54,6 +54,7 @@ img {
   border-radius: 4px;
 }
 .airview-inner > .airview-loader {
+  background: url("../img/loader.gif");
   position: absolute;
   width: 30px;
   height: 30px;

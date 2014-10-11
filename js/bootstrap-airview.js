@@ -82,8 +82,8 @@
     var wait    = false
     var img     = new Image()
     var that    = this
-    var title   = 
-    var content =
+    var title   = ''
+    var content = ''
 	
     if ($e.attr('title') || typeof ($e.attr('data-original-title')) != 'string') {
       $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')

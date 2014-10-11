@@ -1,5 +1,5 @@
-@import url("/vendor/normalize.css");
-@import url("/vendor/animation.css");
+@import url("./vendor/normalize.css");
+@import url("./vendor/animation.css");
 .fade {
   opacity: 0;
   -webkit-transition: opacity .15s linear;

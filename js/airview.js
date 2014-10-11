@@ -1,6 +1,6 @@
 /* ========================================================================
  * Bootstrap-Airview: airview.js v1.0.0
- * https://github.com/deviprsd21/Bootstrap-Airview
+ * http://deviprsd21.github.io/Airview/
  * ========================================================================
  * This Plugin is inspired by Tooltip.js by Jacob Thornton
  * Copyright 2014 Devi Prasad
@@ -46,6 +46,7 @@
   }
 
   Airview.prototype.setContent = function () {
+    var $e          = this.$element
     var $tip        = this.tip()
     var title       = this.getTitle()
     var imgalt      = title.substr(title.lastIndexOf('/') + 1)
@@ -68,7 +69,8 @@
 
     // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
     // this manually by checking the contents.
-    if (!title) $tip.find('.airview-inner').empty().html('<h4>' + this.options.error + '</h4>')
+    if (!title || $e.attr('data-lost')) $tip.find('.airview-inner').empty().addClass('error').html('<span>' + this.options.error + '</span>')
+	else if(title && isNaN(dimension.height) && $e.attr('data-broken')) $tip.find('.airview-inner').empty().addClass('error').html('<span>Broken Link</span>')
   }
   
   Airview.prototype.getHeight = function (width) {
@@ -78,7 +80,7 @@
   
   Airview.prototype.fixTitle = function () {
     var $e      = this.$element
-    var loaded  = false
+    var error   = false
     var wait    = false
     var img     = new Image()
     var that    = this
@@ -99,15 +101,19 @@
       else title = content ? this.options.url ? this.options.url + content : content : title
     }
 	
-    img.addEventListener('load', function () {  }, true)
+    $(img).error(function(e){
+      if(title) $e.attr('data-broken', true)
+	  else $e.attr('data-lost', true)
+      error = true
+    })
     img.src = title
 	
     wait = setInterval(function () {
-      if(img.width != 0 && img.height != 0) {
+      if(img.width != 0 && img.height != 0 || error) {
         $e.attr('data-aratio', img.width / img.height)
         img.removeAttribute("src")
-	img = null
-	clearInterval(wait)
+        img = null
+        clearInterval(wait)
       }
     },0)
   }

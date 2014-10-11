@@ -25,10 +25,10 @@
   Airview.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'auto',
     trigger: 'hover focus',
-	url: false,
+    url: false,
     content: '',
-	width: 'auto',
-	error: 'Image Not Found',
+    width: 'auto',
+    error: 'Image Not Found',
     template: '<div class="airview" role="tooltip"><div class="airview-arrow"></div><div class="airview-inner"><div class="airview-loader">' + 
 	'</div><img /></div></div>'
   })
@@ -46,23 +46,23 @@
   }
 
   Airview.prototype.setContent = function () {
-    var $tip    = this.tip()
-    var title   = this.getTitle()
-	var imgalt  = title.substr(title.lastIndexOf('/') + 1)
-    var content = this.getContent()
-	var dimension   = {width : this.options.width == 'auto' ? 500 : this.options.width, height: this.options.width == 'auto' ? 
-	                   this.getHeight(500) : this.getHeight(this.options.width)}
+    var $tip        = this.tip()
+    var title       = this.getTitle()
+    var imgalt      = title.substr(title.lastIndexOf('/') + 1)
+    var content     = this.getContent()
+    var dimension   = {width : this.options.width == 'auto' ? 500 : this.options.width, height: this.options.width == 'auto' ? 
+	              this.getHeight(500) : this.getHeight(this.options.width)}
 	
-	if(!title && !content) {
-	  title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
-	} else {
-	  if(title) title = this.options.url ? this.options.url + title : title
-	  else title = content ? this.options.url ? this.options.url + content : content : title
-	}
+    if(!title && !content) {
+      title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
+    } else {
+      if(title) title = this.options.url ? this.options.url + title : title
+      else title = content ? this.options.url ? this.options.url + content : content : title
+    }
 	
-	$tip.find('.airview-inner > img').on('load', function(){ $tip.find('.airview-loader').fadeOut() })
-	this.options.html ? $tip.find('.airview-inner')['html'](title) : $tip.find('.airview-inner > img')['attr']({src: title, alt: imgalt})
-	$tip.find('.airview-inner > img')['attr'](dimension)
+    $tip.find('.airview-inner > img').on('load', function(){ $tip.find('.airview-loader').fadeOut() })
+    this.options.html ? $tip.find('.airview-inner')['html'](title) : $tip.find('.airview-inner > img')['attr']({src: title, alt: imgalt})
+                        $tip.find('.airview-inner > img')['attr'](dimension)
 	
     $tip.removeClass('fade top bottom left right in')
 
@@ -77,37 +77,39 @@
   }
   
   Airview.prototype.fixTitle = function () {
-    var $e = this.$element
-	var loaded  = false
-	var wait    = false
-	var img     = new Image()
-	var that    = this
+    var $e      = this.$element
+    var loaded  = false
+    var wait    = false
+    var img     = new Image()
+    var that    = this
+    var title   = 
+    var content =
 	
     if ($e.attr('title') || typeof ($e.attr('data-original-title')) != 'string') {
       $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
     }
 	
-	var title   = this.getTitle()
-	var content = this.getContent()
+    title   = this.getTitle()
+    content = this.getContent()
 	
-	if(!title && !content) {
-	  title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
-	} else {
-	  if(title) title = this.options.url ? this.options.url + title : title
-	  else title = content ? this.options.url ? this.options.url + content : content : title
-	}
+    if(!title && !content) {
+      title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
+    } else {
+      if(title) title = this.options.url ? this.options.url + title : title
+      else title = content ? this.options.url ? this.options.url + content : content : title
+    }
 	
-	img.addEventListener('load', function () {  }, true)
-	img.src = title
+    img.addEventListener('load', function () {  }, true)
+    img.src = title
 	
-	wait = setInterval(function () {
-	  if(img.width != 0 && img.height != 0) {
-		$e.attr('data-aratio', img.width / img.height)
-		img.removeAttribute("src")
-		img = null
-		clearInterval(wait)
-	  }
-	}, 0)
+    wait = setInterval(function () {
+      if(img.width != 0 && img.height != 0) {
+        $e.attr('data-aratio', img.width / img.height)
+        img.removeAttribute("src")
+	img = null
+	clearInterval(wait)
+      }
+    },0)
   }
 
   Airview.prototype.hasContent = function () {

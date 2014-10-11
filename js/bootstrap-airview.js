@@ -25,11 +25,12 @@
   Airview.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'auto',
     trigger: 'hover focus',
-	  url: false,
+	url: false,
     content: '',
-	  width: 'auto',
+	width: 'auto',
+	error: 'Image Not Found',
     template: '<div class="airview" role="tooltip"><div class="airview-arrow"></div><div class="airview-inner"><div class="airview-loader">' + 
-	            '<img src="img/loader.gif" /></div><img /></div></div>'
+	'<img src="img/loader.gif" /></div><img /></div></div>'
   })
 
 
@@ -45,29 +46,29 @@
   }
 
   Airview.prototype.setContent = function () {
-    var $tip      = this.tip()
-    var title     = this.getTitle()
-	  var imgalt    = title.substr(title.lastIndexOf('/') + 1)
-    var content   = this.getContent()
-	  var dimension = {width : this.options.width == 'auto' ? 500 : this.options.width, height: this.options.width == 'auto' ? 
+    var $tip    = this.tip()
+    var title   = this.getTitle()
+	var imgalt  = title.substr(title.lastIndexOf('/') + 1)
+    var content = this.getContent()
+	var dimension   = {width : this.options.width == 'auto' ? 500 : this.options.width, height: this.options.width == 'auto' ? 
 	                   this.getHeight(500) : this.getHeight(this.options.width)}
 	
-	  if(!title && !content) {
-	    title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
-	  } else {
-	    title = this.options.url ? this.options.url + title : title
-	    title = content ? this.options.url ? this.options.url + content : content : title
-	  }
+	if(!title && !content) {
+	  title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
+	} else {
+	  if(title) title = this.options.url ? this.options.url + title : title
+	  else title = content ? this.options.url ? this.options.url + content : content : title
+	}
 	
-	  $tip.find('.airview-inner > img').on('load', function(){ $tip.find('.airview-loader').fadeOut() })
-	  this.options.html ? $tip.find('.airview-inner')['html'](title) : $tip.find('.airview-inner > img')['attr']({src: title, alt: imgalt})
-	  $tip.find('.airview-inner > img')['attr'](dimension)
+	$tip.find('.airview-inner > img').on('load', function(){ $tip.find('.airview-loader').fadeOut() })
+	this.options.html ? $tip.find('.airview-inner')['html'](title) : $tip.find('.airview-inner > img')['attr']({src: title, alt: imgalt})
+	$tip.find('.airview-inner > img')['attr'](dimension)
 	
     $tip.removeClass('fade top bottom left right in')
 
     // IE8 doesn't accept hiding via the `:empty` pseudo selector, we have to do
     // this manually by checking the contents.
-    if (!title) $tip.find('.airview-inner').empty().html('<h4>Image not found!</h4>')
+    if (!title) $tip.find('.airview-inner').empty().html('<h4>' + this.options.error + '</h4>')
   }
   
   Airview.prototype.getHeight = function (width) {
@@ -77,36 +78,36 @@
   
   Airview.prototype.fixTitle = function () {
     var $e = this.$element
-	  var loaded  = false
-	  var wait    = false
-	  var img     = new Image()
-	  var that    = this
+	var loaded  = false
+	var wait    = false
+	var img     = new Image()
+	var that    = this
 	
     if ($e.attr('title') || typeof ($e.attr('data-original-title')) != 'string') {
       $e.attr('data-original-title', $e.attr('title') || '').attr('title', '')
     }
 	
-	  var title   = this.getTitle()
-	  var content = this.getContent()
+	var title   = this.getTitle()
+	var content = this.getContent()
 	
-	  if(!title && !content) {
-	    title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
-	  } else {
-	    title = this.options.url ? this.options.url + title : title
-	    title = content ? this.options.url ? this.options.url + content : content : title
+	if(!title && !content) {
+	  title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''
+	} else {
+	  if(title) title = this.options.url ? this.options.url + title : title
+	  else title = content ? this.options.url ? this.options.url + content : content : title
+	}
+	
+	img.addEventListener('load', function () {  }, true)
+	img.src = title
+	
+	wait = setInterval(function () {
+	  if(img.width != 0 && img.height != 0) {
+		$e.attr('data-aratio', img.width / img.height)
+		img.removeAttribute("src")
+		img = null
+		clearInterval(wait)
 	  }
-	
-	  img.addEventListener('load', function () {  }, true)
-	  img.src = title
-	
-	  wait = setInterval(function () {
-	    if(img.width != 0 && img.height != 0) {
-		    $e.attr('data-aratio', img.width / img.height)
-		    img.removeAttribute("src")
-		    img = null
-		    clearInterval(wait)
-	   }
-	  }, 0)
+	}, 0)
   }
 
   Airview.prototype.hasContent = function () {

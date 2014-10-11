@@ -30,7 +30,7 @@
     width: 'auto',
     error: 'Image Not Found',
     template: '<div class="airview" role="tooltip"><div class="airview-arrow"></div><div class="airview-inner"><div class="airview-loader">' + 
-	'</div><img /></div></div>'
+	          '</div><img /></div></div>'
   })
 
 
@@ -51,7 +51,7 @@
     var imgalt      = title.substr(title.lastIndexOf('/') + 1)
     var content     = this.getContent()
     var dimension   = {width : this.options.width == 'auto' ? 500 : this.options.width, height: this.options.width == 'auto' ? 
-	              this.getHeight(500) : this.getHeight(this.options.width)}
+	                  this.getHeight(500) : this.getHeight(this.options.width)}
 	
     if(!title && !content) {
       title = this.options.content ? this.options.url ? this.options.url + this.options.content : this.options.content : ''

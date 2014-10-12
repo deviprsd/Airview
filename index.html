@@ -11,35 +11,73 @@
     <title>Airview for JQuery and Bootstrap</title>
 
     <!-- Bootstrap core CSS -->
+	<link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/airview.min.css" rel="stylesheet">
     <link href="./css/master.css" rel="stylesheet">
   </head>
 
   <body>
-    <center class="row">
-      <img src="img/thumbnail/1.jpg" data-content="1.jpg" width="80">
-      <img src="img/thumbnail/2.jpg" data-content="2.jpg" width="80">
-      <img src="img/thumbnail/3.jpg" data-content="3.jpg" width="80">
-      <img src="img/thumbnail/4.jpg" data-content="4.jpg" width="80">
-      <img src="img/thumbnail/5.jpg" data-content="5.jpg" width="80">
-      <img src="img/thumbnail/6.jpg" data-content="6.jpg" width="80">
-      <img src="img/thumbnail/7.jpg" data-content="71" width="80">
-      <img src="img/thumbnail/8.jpg" data-content="" width="80">
-      <img src="img/thumbnail/9.jpg" data-content="9.jpg" width="80">
-      <img src="img/thumbnail/10.jpg" data-content="10.jpg" width="80">
-    </center>
+    <nav class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+	    <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="">Airview</a>
+        </div>
+		<ul class="nav navbar-nav">
+		  <li class="active"><a href="">Demo</a></li>
+		  <li><a href="//www.github.com/deviprsd21/Airview">Source Code</a></li>
+          <li><a href="/Airview/documentation.html">Documentation</a></li>
+		</ul>
+		<form class="navbar-form navbar-right" role="search">
+          <div class="form-group">
+            <input id="taginput" type="text" class="form-control" placeholder="Tags">
+          </div>
+          <button id="tags" type="submit" class="btn btn-default">Find More</button>
+        </form>
+      </div>
+    </nav>
+    <div class="container">
+      <center id="images"></center>
+	</div>
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="./js/vendor/jquery.min.js"></script>
+	<script src="./js/masonry.pkgd.min.js"></script>
     <script src="./js/vendor/tooltip.min.js"></script>
     <script src="./js/airview.min.js"></script>
     <script>
-	  $("img").airview({
-        url: './img/', 
-        width: 250, 
-        container:'body'
-	  });
+      (function() {
+	    var wid = $('body > .container').width() / 6;
+		var $images = $('#images');
+	    $images.masonry({
+          itemSelector: 'img',
+		  gutter: 0,
+		  columnWidth: wid
+        });
+	    $('#images').on('start', function(e, tag){
+          $.getJSON( "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?", {tags: tag, format: "json"})
+          .done(function( data ) {
+		    var elems;
+            $.each( data.items, function( i, item ) {
+		      var normal = item.media.m.substring(0, item.media.m.lastIndexOf('_')) + item.media.m.substring(item.media.m.lastIndexOf('_') + 2);
+              var elem = $( "<img>" ).attr({'src':item.media.m, 'data-content': normal, width: wid}).airview();
+			  elems = elems ? elems.add( elem ) : elem;
+            });
+			$images.prepend(elems).masonry('prepended', elems);
+          });
+		});
+		$('#images').trigger('start', 'summer');
+		$('#tags').on('click', function(e) {
+		  e.preventDefault();
+		  $('#images').trigger('start', $('#taginput').val());
+		});
+      })();
     </script>
   </body>
 </html>

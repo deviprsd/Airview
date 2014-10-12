@@ -13,7 +13,7 @@ $(document).ready(function() {
         normal = item.media.m.substring(0, item.media.m.lastIndexOf('_')) + item.media.m.substring(item.media.m.lastIndexOf('_') + 2);
         elem = $(item.description).find('img').parent().html();
         ratio = $(elem).attr('width') / $(elem).attr('height');
-        elem = $(elem).attr({'data-content': normal, 'width': wid, 'height': (wid / ratio)}).airview({width: 350});
+        elem = $(elem).attr({'data-content': normal, 'width': wid, 'height': (wid / ratio)}).airview({width: 350, placement: 'auto top'});
         elems = elems ? elems.add( elem ) : elem;
       });
       $images.prepend(elems).masonry('prepended', elems);

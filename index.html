@@ -47,7 +47,7 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./js/vendor/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<script src="./js/masonry.pkgd.min.js"></script>
     <script src="./js/vendor/tooltip.min.js"></script>
     <script src="./js/airview.min.js"></script>
@@ -63,10 +63,13 @@
 	    $('#images').on('start', function(e, tag){
           $.getJSON( "http://api.flickr.com/services/feeds/photos_public.gne?jsoncallback=?", {tags: tag, format: "json"})
           .done(function( data ) {
-		    var elems;
+		    var elems; var ratio;
             $.each( data.items, function( i, item ) {
 		      var normal = item.media.m.substring(0, item.media.m.lastIndexOf('_')) + item.media.m.substring(item.media.m.lastIndexOf('_') + 2);
-              var elem = $( "<img>" ).attr({'src':item.media.m, 'data-content': normal, width: wid}).airview();
+              var elem = $(item.description).find('img').parent().html();
+			  ratio = $(elem).attr('width') / $(elem).attr('height');
+			  console.log(ratio);
+			  elem = $(elem).attr({'data-content': normal, 'width': wid, 'height': (wid / ratio)}).airview();
 			  elems = elems ? elems.add( elem ) : elem;
             });
 			$images.prepend(elems).masonry('prepended', elems);

@@ -30,7 +30,7 @@
     width: 'auto',
     error: 'Image Not Found',
     template: '<div class="airview" role="tooltip"><div class="airview-arrow"></div><div class="airview-inner"><div class="airview-loader">' + 
-	          '</div><img /></div></div>'
+	          '</div><img style="display:none" /></div></div>'
   })
 
 

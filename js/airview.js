@@ -24,7 +24,7 @@
 
   Airview.DEFAULTS = $.extend({}, $.fn.tooltip.Constructor.DEFAULTS, {
     placement: 'auto',
-    trigger: 'hover focus',
+    trigger: 'click',
     url: false,
     content: '',
     width: 'auto',

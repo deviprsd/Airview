@@ -63,7 +63,7 @@
 	
     $tip.find('.airview-inner > img').on('load', function(){ $tip.find('.airview-loader').fadeOut(); $tip.find('.airview-inner > img').fadeIn(); })
     this.options.html ? $tip.find('.airview-inner')['html'](title) : $tip.find('.airview-inner > img')['attr']({src: title, alt: imgalt})
-                        $tip.find('.airview-inner')['attr'](dimension)
+                        $tip.find('.airview-inner')['css']({width: dimension.width + 'px', height: dimension.height + 'px'})
                         $tip.find('.airview-inner > img')['attr'](dimension)
 	
     $tip.removeClass('fade top bottom left right in')
